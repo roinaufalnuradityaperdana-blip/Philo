@@ -1,0 +1,35 @@
+name: suoro
+description: P2P Zero-Cloud File and Text Drop for Windows and Android.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  shelf: ^1.4.1
+  shelf_router: ^1.1.4
+  http: ^1.2.0
+  crypto: ^3.0.3
+  uuid: ^4.3.3
+  path: ^1.9.0
+  path_provider: ^2.1.2
+  nsd: ^4.0.0
+  tray_manager: ^0.2.1
+  window_manager: ^0.3.8
+  desktop_drop: ^0.4.4
+  flutter_foreground_task: ^6.1.1
+  receive_sharing_intent: ^1.4.8
+  permission_handler: ^11.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  test: ^1.24.0
+  lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
