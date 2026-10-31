@@ -56,13 +56,17 @@ jobs:
           cp pubspec.yaml pubspec.yaml.bak
           cp -r lib lib.bak
           flutter create . --project-name suoro --platforms=android --org com.suoro
+          sed -i 's/minSdkVersion = flutter.minSdkVersion/minSdkVersion = 21/g' android/app/build.gradle.kts android/app/build.gradle 2>/dev/null || true
+          sed -i 's/minSdkVersion flutter.minSdkVersion/minSdkVersion 21/g' android/app/build.gradle.kts android/app/build.gradle 2>/dev/null || true
           cp pubspec.yaml.bak pubspec.yaml
           cp -r lib.bak/* lib/
           rm -rf lib.bak pubspec.yaml.bak
       - name: Install dependencies
         run: flutter pub get
       - name: Build Android APK
-        run: flutter build apk --release || flutter build apk --debug
+        run: |
+          flutter build apk --debug --no-tree-shake-icons
+          flutter build apk --release --no-tree-shake-icons || true
       - name: Upload Android .apk Artifact
         uses: actions/upload-artifact@v4
         with:
