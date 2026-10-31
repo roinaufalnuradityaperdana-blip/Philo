@@ -152,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: primaryColor.withValues(alpha: 0.12),
+                  color: primaryColor.withOpacity(0.12),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: const Icon(Icons.bolt, color: primaryColor, size: 22),
@@ -195,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
                   decoration: BoxDecoration(
-                    color: _isDragging ? primaryColor.withValues(alpha: 0.08) : cardBg,
+                    color: _isDragging ? primaryColor.withOpacity(0.08) : cardBg,
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
                       color: _isDragging ? primaryColor : borderColor,
@@ -344,7 +344,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                 width: 44,
                                 height: 44,
                                 decoration: BoxDecoration(
-                                  color: (isWin ? Colors.blue : Colors.green).withValues(alpha: 0.12),
+                                  color: (isWin ? Colors.blue : Colors.green).withOpacity(0.12),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Icon(

@@ -9,35 +9,42 @@ class WindowsTrayService with TrayListener, WindowListener {
 
   Future<void> init() async {
     if (!kIsWeb && Platform.isWindows) {
-      await windowManager.ensureInitialized();
-      windowManager.addListener(this);
-      await windowManager.setPreventClose(true);
-
-      trayManager.addListener(this);
-      await trayManager.setIcon('assets/app_icon.ico');
-      final menu = Menu(items: [
-        MenuItem(key: 'show_window', label: 'Buka Suoro'),
-        MenuItem.separator(),
-        MenuItem(key: 'exit_app', label: 'Keluar'),
-      ]);
-      await trayManager.setContextMenu(menu);
+      try {
+        await windowManager.ensureInitialized();
+        windowManager.addListener(this);
+        await windowManager.setPreventClose(true);
+      } catch (e) {
+        debugPrint('window_manager init error: $e');
+      }
     }
   }
 
   @override
   void onWindowClose() async {
-    if (Platform.isWindows) {
-      await windowManager.hide();
+    if (!kIsWeb && Platform.isWindows) {
+      try {
+        await windowManager.hide();
+      } catch (e) {
+        debugPrint('windowManager.hide error: $e');
+      }
     }
   }
 
   @override
   void onMenuItemClick(MenuItem menuItem) async {
     if (menuItem.key == 'show_window') {
-      await windowManager.show();
-      await windowManager.focus();
+      try {
+        await windowManager.show();
+        await windowManager.focus();
+      } catch (e) {
+        debugPrint('windowManager.show error: $e');
+      }
     } else if (menuItem.key == 'exit_app') {
-      await windowManager.destroy();
+      try {
+        await windowManager.destroy();
+      } catch (e) {
+        debugPrint('windowManager.destroy error: $e');
+      }
       exit(0);
     }
   }
