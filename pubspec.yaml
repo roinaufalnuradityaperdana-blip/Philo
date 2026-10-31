@@ -18,7 +18,6 @@ dependencies:
   path: ^1.9.0
   path_provider: ^2.1.2
   nsd: 4.1.0
-  desktop_drop: ^0.4.4
   file_picker: ^8.1.4
 
 dev_dependencies:

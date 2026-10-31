@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:desktop_drop/desktop_drop.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -132,17 +131,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     final cardBg = isDark ? const Color(0xFF1E293B) : Colors.white;
     final borderColor = isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0);
 
-    return DropTarget(
-      onDragEntered: (_) => setState(() => _isDragging = true),
-      onDragExited: (_) => setState(() => _isDragging = false),
-      onDragDone: (detail) {
-        setState(() => _isDragging = false);
-        final files = detail.files.map((x) => File(x.path)).toList();
-        if (files.isNotEmpty && widget.mdnsService.peers.isNotEmpty) {
-          _sendFilesToPeer(widget.mdnsService.peers.first, files);
-        }
-      },
-      child: Scaffold(
+    return Scaffold(
         backgroundColor: isDark ? const Color(0xFF0F172A) : const Color(0xFFF8FAFC),
         appBar: AppBar(
           elevation: 0,
@@ -386,7 +375,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }
