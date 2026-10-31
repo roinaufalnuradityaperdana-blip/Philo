@@ -18,7 +18,14 @@ jobs:
       - name: Enable Windows Desktop
         run: flutter config --enable-windows-desktop
       - name: Scaffold Platform Project
-        run: flutter create . --platforms=windows --org com.suoro
+        shell: bash
+        run: |
+          cp pubspec.yaml pubspec.yaml.bak
+          cp -r lib lib.bak
+          flutter create . --project-name suoro --platforms=windows --org com.suoro
+          cp pubspec.yaml.bak pubspec.yaml
+          cp -r lib.bak/* lib/
+          rm -rf lib.bak pubspec.yaml.bak
       - name: Install dependencies
         run: flutter pub get
       - name: Build Windows Executable
@@ -43,7 +50,13 @@ jobs:
           channel: 'stable'
           flutter-version: '3.24.x'
       - name: Scaffold Platform Project
-        run: flutter create . --platforms=android --org com.suoro
+        run: |
+          cp pubspec.yaml pubspec.yaml.bak
+          cp -r lib lib.bak
+          flutter create . --project-name suoro --platforms=android --org com.suoro
+          cp pubspec.yaml.bak pubspec.yaml
+          cp -r lib.bak/* lib/
+          rm -rf lib.bak pubspec.yaml.bak
       - name: Install dependencies
         run: flutter pub get
       - name: Build Android APK
@@ -52,4 +65,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Suoro-Android-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/*.apk
