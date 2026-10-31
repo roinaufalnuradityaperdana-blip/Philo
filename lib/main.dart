@@ -7,16 +7,11 @@ import 'core/network/mdns_service.dart';
 import 'core/session/session_models.dart';
 import 'core/session/transfer_state_machine.dart';
 import 'core/storage/storage_service.dart';
-import 'platform/android/foreground_service.dart';
-import 'platform/windows/tray_service.dart';
 import 'ui/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await WindowsTrayService.instance.init();
-  AndroidForegroundListener.init();
-  await AndroidForegroundListener.start();
 
   final docsDir = await getApplicationDocumentsDirectory();
   final storageDir = Directory('${docsDir.path}/Suoro');
