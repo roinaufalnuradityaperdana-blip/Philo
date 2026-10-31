@@ -17,6 +17,8 @@ jobs:
           flutter-version: '3.24.x'
       - name: Enable Windows Desktop
         run: flutter config --enable-windows-desktop
+      - name: Scaffold Platform Project
+        run: flutter create . --platforms=windows --org com.suoro
       - name: Install dependencies
         run: flutter pub get
       - name: Build Windows Executable
@@ -40,6 +42,8 @@ jobs:
         with:
           channel: 'stable'
           flutter-version: '3.24.x'
+      - name: Scaffold Platform Project
+        run: flutter create . --platforms=android --org com.suoro
       - name: Install dependencies
         run: flutter pub get
       - name: Build Android APK
