@@ -49,26 +49,34 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-      - name: Flutter Doctor
-        run: flutter doctor -v
+      - name: Install Android SDK 36
+        run: |
+          yes | sdkmanager --licenses || true
+          sdkmanager "platforms;android-36" "platforms;android-35" || true
       - name: Scaffold Platform Project
         run: |
           cp pubspec.yaml pubspec.yaml.bak
           cp -r lib lib.bak
           flutter create . --project-name suoro --platforms=android --org com.suoro
           sed -i 's/minSdk = flutter.minSdkVersion/minSdk = 21/g' android/app/build.gradle.kts android/app/build.gradle 2>/dev/null || true
-          sed -i 's/minSdk = flutter.minSdkVersion.toInt()/minSdk = 21/g' android/app/build.gradle.kts android/app/build.gradle 2>/dev/null || true
-          sed -i 's/compileSdk = flutter.compileSdkVersion/compileSdk = 35/g' android/app/build.gradle.kts android/app/build.gradle 2>/dev/null || true
-          sed -i 's/compileSdkVersion flutter.compileSdkVersion/compileSdkVersion 35/g' android/app/build.gradle.kts android/app/build.gradle 2>/dev/null || true
+          sed -i 's/compileSdk = flutter.compileSdkVersion/compileSdk = 36/g' android/app/build.gradle.kts android/app/build.gradle 2>/dev/null || true
+          sed -i 's/compileSdkVersion flutter.compileSdkVersion/compileSdkVersion 36/g' android/app/build.gradle.kts android/app/build.gradle 2>/dev/null || true
           cp pubspec.yaml.bak pubspec.yaml
           cp -r lib.bak/* lib/
           rm -rf lib.bak pubspec.yaml.bak
       - name: Install dependencies
         run: flutter pub get
       - name: Build Android APK
-        run: flutter build apk --debug --verbose -- -x checkDebugAarMetadata -x checkReleaseAarMetadata
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug -x checkDebugAarMetadata || ./gradlew assembleDebug
+          cd ..
       - name: Upload Android .apk Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Suoro-Android-apk
-          path: build/app/outputs/flutter-apk/*.apk
+          path: |
+            build/app/outputs/flutter-apk/*.apk
+            build/app/outputs/apk/debug/*.apk
+            android/app/build/outputs/apk/debug/*.apk
