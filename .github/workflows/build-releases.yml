@@ -58,18 +58,15 @@ jobs:
           flutter create . --project-name suoro --platforms=android --org com.suoro
           sed -i 's/minSdk = flutter.minSdkVersion/minSdk = 21/g' android/app/build.gradle.kts android/app/build.gradle 2>/dev/null || true
           sed -i 's/minSdk = flutter.minSdkVersion.toInt()/minSdk = 21/g' android/app/build.gradle.kts android/app/build.gradle 2>/dev/null || true
-          sed -i 's/minSdkVersion flutter.minSdkVersion/minSdkVersion 21/g' android/app/build.gradle.kts android/app/build.gradle 2>/dev/null || true
-          sed -i 's/minSdkVersion = flutter.minSdkVersion/minSdkVersion = 21/g' android/app/build.gradle.kts android/app/build.gradle 2>/dev/null || true
-          sed -i 's/compileSdk = flutter.compileSdkVersion/compileSdk = 36/g' android/app/build.gradle.kts android/app/build.gradle 2>/dev/null || true
-          sed -i 's/compileSdkVersion flutter.compileSdkVersion/compileSdkVersion 36/g' android/app/build.gradle.kts android/app/build.gradle 2>/dev/null || true
-          echo 'tasks.whenTaskAdded { if (name.contains("checkAarMetadata", ignoreCase = true)) { enabled = false } }' >> android/app/build.gradle.kts 2>/dev/null || true
+          sed -i 's/compileSdk = flutter.compileSdkVersion/compileSdk = 35/g' android/app/build.gradle.kts android/app/build.gradle 2>/dev/null || true
+          sed -i 's/compileSdkVersion flutter.compileSdkVersion/compileSdkVersion 35/g' android/app/build.gradle.kts android/app/build.gradle 2>/dev/null || true
           cp pubspec.yaml.bak pubspec.yaml
           cp -r lib.bak/* lib/
           rm -rf lib.bak pubspec.yaml.bak
       - name: Install dependencies
         run: flutter pub get
       - name: Build Android APK
-        run: flutter build apk --debug --verbose
+        run: flutter build apk --debug --verbose -- -x checkDebugAarMetadata -x checkReleaseAarMetadata
       - name: Upload Android .apk Artifact
         uses: actions/upload-artifact@v4
         with:
